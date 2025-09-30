@@ -1,0 +1,4 @@
+New York 1000
+Minsk Minsk 200
+Usa San-francisco 1500
+Japan Tokyo 2000

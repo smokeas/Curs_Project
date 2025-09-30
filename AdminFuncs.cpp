@@ -67,27 +67,27 @@ static bool changePasswordInAccounts(const string& accountsFile, const string& t
 void adminViewAndProcessRequests(const string& requestsFile, const string& accountsFile) {
     vector<ResetRequest> reqs = loadResetRequests(requestsFile);
     if (reqs.empty()) {
-        cout << YELLOW << "No password reset requests." << RESET << endl;
+        cout << YELLOW << "Никаких запросов на сброс пароля." << RESET << endl;
         return;
     }
 
-    cout << endl << "Password reset requests:" << endl;
+    cout << endl << "Запросы на сброс пароля:" << endl;
     for (size_t i = 0; i < reqs.size(); ++i) {
-        cout << i + 1 << ". User: " << reqs[i].username 
-             << " | New password: " << reqs[i].newPassword << endl;
+        cout << i + 1 << ". Пользователь: " << reqs[i].username 
+             << " | Новый пароль: " << reqs[i].newPassword << endl;
     }
 
-    cout << "Enter request number to approve (0 - cancel): ";
+    cout << "Введите номер запроса для утверждения (0 - cancel): ";
     int choice;
     if (!(cin >> choice)) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << RED << "Invalid input." << RESET << endl;
+        cout << RED << "Неверный ввод." << RESET << endl;
         return;
     }
 
     if (choice <= 0 || choice > (int)reqs.size()) {
-        cout << YELLOW << "Canceled." << RESET << endl;
+        cout << YELLOW << "Отмененный." << RESET << endl;
         return;
     }
 
@@ -101,17 +101,17 @@ void adminViewAndProcessRequests(const string& requestsFile, const string& accou
     }
 
     if (!userExists) {
-        cout << RED << "User not found. Request deleted." << RESET << endl;
+        cout << RED << "Пользователь не найден. Запрос удален." << RESET << endl;
         reqs.erase(reqs.begin() + (choice - 1));
         saveResetRequests(requestsFile, reqs);
         return;
     }
 
     if (changePasswordInAccounts(accountsFile, toApprove.username, toApprove.newPassword)) {
-        cout << GREEN << "Password for " << toApprove.username << " changed." << RESET << endl;
+        cout << GREEN << "Пароль для " << toApprove.username << " измененный." << RESET << endl;
         reqs.erase(reqs.begin() + (choice - 1));
         saveResetRequests(requestsFile, reqs);
     } else {
-        cout << RED << "Error updating accounts file." << RESET << endl;
+        cout << RED << "Ошибка при обновлении файла учетных записей." << RESET << endl;
     }
 }

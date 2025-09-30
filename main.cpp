@@ -9,12 +9,12 @@ using namespace std;
 void userMenu(User& user, TourManager& tm, BookingManager& bm) {
     int choice;
     do {
-        cout << endl << "=== User menu ===" << endl;
-        cout << "1. Book tour" << endl;
-        cout << "2. Cancel booking" << endl;
-        cout << "3. My bookings" << endl;
-        cout << "4. Change password" << endl;
-        cout << "0. Logout" << endl;
+        cout << endl << "=== Пользовательское меню ===" << endl;
+        cout << "1. Забронировать тур" << endl;
+        cout << "2. Отменить бронирование" << endl;
+        cout << "3. Мои заказы" << endl;
+        cout << "4. Поменять пароль" << endl;
+        cout << "0. Выход из системы" << endl;
         cout << "Choice: ";
         if (!(cin >> choice)) {
             cin.clear();
@@ -37,13 +37,13 @@ void userMenu(User& user, TourManager& tm, BookingManager& bm) {
 void adminMenu(User& user, TourManager& tm, BookingManager& bm) {
     int choice;
     do {
-        cout << endl << "=== Admin menu ===" << endl;
-        cout << "1. Add tour" << endl;
-        cout << "2. Delete tour" << endl;
-        cout << "3. Show tours" << endl;
-        cout << "4. Show all bookings" << endl;
-        cout << "5. Process password reset requests" << endl;
-        cout << "0. Logout" << endl;
+        cout << endl << "=== Меню администратора ===" << endl;
+        cout << "1. Добавить тур" << endl;
+        cout << "2. Удалить тур" << endl;
+        cout << "3. Показать туры" << endl;
+        cout << "4. Показать все заказы" << endl;
+        cout << "5. Обрабатывать запросы на сброс пароля" << endl;
+        cout << "0. Выход из системы" << endl;
         cout << "Choice: ";
         if (!(cin >> choice)) {
             cin.clear();
@@ -65,9 +65,9 @@ void adminMenu(User& user, TourManager& tm, BookingManager& bm) {
 
 int main() {
 
-     setlocale(LC_ALL, "Russian");
+     //setlocale(LC_ALL, "Russian");
 
-    cout << GREEN << "=== Travel Agency System Started ===" << RESET << endl;
+    cout << GREEN << "=== Запущена программа туристического  агентства ===" << RESET << endl;
 
     // Проверка наличия администратора
     ifstream check("accounts.txt");
@@ -96,12 +96,12 @@ int main() {
 
     int choice;
     do {
-        cout << endl << "=== Main menu ===" << endl;
-        cout << BLUE << "1. Register" << RESET << endl;
-        cout << GREEN << "2. Login" << RESET << endl;
-        cout << "3. View tours" << endl;
-        cout << YELLOW << "4. Request password reset" << RESET << endl;
-        cout << RED << "0. Exit" << RESET << endl;
+        cout << endl << "=== Главное меню ===" << endl;
+        cout << BLUE << "1. Регистрация" << RESET << endl;
+        cout << GREEN << "2. Вход" << RESET << endl;
+        cout << "3. Посмотреть туры" << endl;
+        cout << YELLOW << "4. Забыл проль " << RESET << endl;
+        cout << RED << "0. Выход" << RESET << endl;
         cout << "Choice: ";
         if (!(cin >> choice)) {
             cin.clear();
