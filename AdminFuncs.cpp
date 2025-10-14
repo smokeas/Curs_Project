@@ -1,5 +1,6 @@
 #include "Funcs.h"
 #include "Utils.h"
+#include "Crypto.h"
 #include <iostream>
 #include <fstream>
 #include <vector>

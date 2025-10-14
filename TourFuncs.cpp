@@ -1,5 +1,6 @@
 #include "Funcs.h"
 #include "Utils.h"
+#include "Crypto.h"
 #include <iostream>
 #include <fstream>
 #include <limits>
@@ -12,14 +13,13 @@ void Tour::showInfo() const {
 
 // Методы класса TourManager
 void TourManager::loadTours(const string& filename) {
-    ifstream file(filename);//Открываем файл для ЧТЕНИЯ
-    if (!file.is_open()) return;//Проверяем, открылся ли файл
-     // Если файла нет или нет прав - выходим
-    tours.clear(); // Очищаем старый список 
-    string n, c; 
+    ifstream file(filename);
+    if (!file.is_open()) return;
+    tours.clear();
+    string n, c;
     double p;
-    while (file >> n >> c >> p) { //Оператор >> читает данные, разделённые пробелами
-        tours.emplace_back(n, c, p); //Создаём объект и добавляем в вектор
+    while (file >> n >> c >> p) {
+        tours.emplace_back(n, c, p);
     }
 }
 
@@ -101,9 +101,9 @@ void BookingManager::loadBookings(const string& filename) {
     ifstream file(filename);
     bookings.clear();
     if (!file.is_open()) return;
-    string u, t; //Читаем все пары логин-пароль
+    string u, t; //Читаем все пары логин-тур
     while (file >> u >> t) {
-        bookings.emplace_back(u, t);//Читаем два слова: username и password
+        bookings.emplace_back(u, t);//Читаем два слова: username и tour name
     }
 }
 
@@ -140,7 +140,9 @@ void BookingManager::makeBooking(const User& user, const TourManager& tm, const 
     bookings.emplace_back(user.getName(), tour.getName());
 //Сохранение в файл (создание bookings.txt)
     ofstream file(filename, ios::app);
-    if (file.is_open()) file << user.getName() << " " << tour.getName() << endl;
+    if (file.is_open()) {
+        file << user.getName() << " " << tour.getName() << endl;
+    }
 
     cout << GREEN << "Бронирование прошло успешно." << RESET << endl;
 }

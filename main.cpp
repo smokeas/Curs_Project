@@ -3,6 +3,7 @@
 #include <limits>
 #include "Funcs.h"
 #include "Utils.h"
+#include "Crypto.h"
 using namespace std;
 
 // Меню пользователя
@@ -68,6 +69,10 @@ int main() {
      //setlocale(LC_ALL, "Russian");
 
     cout << GREEN << "=== Запущена программа туристического  агентства ===" << RESET << endl;
+    
+    // Автоматическая миграция паролей при запуске
+    SimpleCrypto::autoMigratePasswords("accounts.txt");
+    SimpleCrypto::autoMigratePasswords("requests.txt");
 
     // Проверка наличия администратора
     ifstream check("accounts.txt");//ifstream поток для чтения из файла 
@@ -82,7 +87,9 @@ int main() {
     if (!adminFound) {
         ofstream create("accounts.txt", ios::app);
         if (create.is_open()) {
-            create << "admin admin" << endl;
+            // Хэшируем пароль администратора по умолчанию
+            string hashedPassword = SimpleCrypto::hashPassword("admin", "admin");
+            create << "admin " << hashedPassword << endl;
             create.close();
         }
     }

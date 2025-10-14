@@ -1,5 +1,6 @@
 #include "Funcs.h"
 #include "Utils.h"
+#include "Crypto.h"
 #include <iostream>
 #include <fstream>
 #include <limits>
@@ -83,7 +84,9 @@ void User::registerAccount(const string& accountsFile) {
     }
 
     ofstream out(accountsFile, ios::app);
-    out << login << " " << pass << endl;
+    // Хэшируем пароль перед сохранением
+    string hashedPass = SimpleCrypto::hashPassword(login, pass);
+    out << login << " " << hashedPass << endl;
     cout << GREEN << "Регистрация завершена!" << RESET << endl;
 }
 
@@ -96,9 +99,10 @@ void User::login(const string& accountsFile) {
 
     ifstream in(accountsFile);
     bool ok = false;
-    string fileUser, filePass;
-    while (in >> fileUser >> filePass) {
-        if (fileUser == u && filePass == p) {
+    string fileUser, fileHash;
+    while (in >> fileUser >> fileHash) {
+        // Проверяем хэш пароля
+        if (fileUser == u && SimpleCrypto::verifyPassword(u, p, fileHash)) {
             ok = true;
             break;
         }
@@ -146,8 +150,10 @@ void User::changeOwnPassword(const string& accountsFile) {
     ifstream in(accountsFile);
     ofstream out("tmp.txt");
     string u, p;
+    // Хэшируем новый пароль перед сохранением
+    string hashedNewPass = SimpleCrypto::hashPassword(username, newPass);
     while (in >> u >> p) {
-        if (u == username) out << u << " " << newPass << endl;
+        if (u == username) out << u << " " << hashedNewPass << endl;
         else out << u << " " << p << endl;
     }
     in.close(); out.close();
@@ -183,7 +189,9 @@ void requestPasswordReset(const string& requestsFile) {
 
     ofstream out(requestsFile, ios::app);
     if (out.is_open()) {
-        out << username << " " << newPass << endl;
+        // Хэшируем пароль перед сохранением запроса
+        string hashedPass = SimpleCrypto::hashPassword(username, newPass);
+        out << username << " " << hashedPass << endl;
         cout << GREEN << "Запрос отправлен админу. Ожидайте подтверждения." << RESET << endl;
     } else {
         cout << RED << "Ошибка записи в файл запросов." << RESET << endl;
