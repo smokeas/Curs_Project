@@ -21,7 +21,7 @@ bool is_valid_input(const string& str, bool is_password) {
 // Проверка сложности пароля
 bool is_password_strong(const string& password) {
     if (password.length() < 8) return false;
-
+//Флаги
     bool has_upper = false, has_lower = false, has_digit = false, has_special = false;
     for (char c : password) {
         if (isupper((unsigned char)c)) has_upper = true;
@@ -32,7 +32,7 @@ bool is_password_strong(const string& password) {
     return has_upper && has_lower && has_digit && has_special;
 }
 
-// Анализ пароля с цветами
+// Анализ пароля
 void evaluate_password_strength(const string& password) {
     cout << "\nПароль: " << password << endl;
     if (is_password_strong(password)) {

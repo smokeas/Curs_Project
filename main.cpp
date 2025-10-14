@@ -70,11 +70,11 @@ int main() {
     cout << GREEN << "=== Запущена программа туристического  агентства ===" << RESET << endl;
 
     // Проверка наличия администратора
-    ifstream check("accounts.txt");
+    ifstream check("accounts.txt");//ifstream поток для чтения из файла 
     bool adminFound = false;
     if (check.is_open()) {
         string u, p;
-        while (check >> u >> p) {
+        while (check >> u >> p) {//операция извлечения (operator>>) из потока.
             if (u == "admin") { adminFound = true; break; }
         }
         check.close();

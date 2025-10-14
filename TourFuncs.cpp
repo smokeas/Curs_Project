@@ -12,13 +12,14 @@ void Tour::showInfo() const {
 
 // Методы класса TourManager
 void TourManager::loadTours(const string& filename) {
-    ifstream file(filename);
-    if (!file.is_open()) return;
-    tours.clear();
-    string n, c;
+    ifstream file(filename);//Открываем файл для ЧТЕНИЯ
+    if (!file.is_open()) return;//Проверяем, открылся ли файл
+     // Если файла нет или нет прав - выходим
+    tours.clear(); // Очищаем старый список 
+    string n, c; 
     double p;
-    while (file >> n >> c >> p) {
-        tours.emplace_back(n, c, p);
+    while (file >> n >> c >> p) { //Оператор >> читает данные, разделённые пробелами
+        tours.emplace_back(n, c, p); //Создаём объект и добавляем в вектор
     }
 }
 
@@ -100,25 +101,29 @@ void BookingManager::loadBookings(const string& filename) {
     ifstream file(filename);
     bookings.clear();
     if (!file.is_open()) return;
-    string u, t;
+    string u, t; //Читаем все пары логин-пароль
     while (file >> u >> t) {
-        bookings.emplace_back(u, t);
+        bookings.emplace_back(u, t);//Читаем два слова: username и password
     }
 }
 
 void BookingManager::makeBooking(const User& user, const TourManager& tm, const string& filename) {
+    //Проверка входа в систему
     if (!user.isLoggedIn()) {
         cout << RED << "Пожалуйста, сначала войдите в систему." << RESET << endl;
         return;
     }
+    //Проверка, есть ли туры
     if (tm.getToursCount() == 0) {
         cout << "Никаких доступных туров нет." << endl;
         return;
     }
-
+//Пользователь выбирает тур
     tm.showTours();
     cout << "Введите номер тура для бронирования: ";
+        // Выбираем тур
     int choice;
+    //Проверка корректности выбора
     if (!(cin >> choice)) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -133,7 +138,7 @@ void BookingManager::makeBooking(const User& user, const TourManager& tm, const 
 
     Tour tour = tm.getTour(choice - 1);
     bookings.emplace_back(user.getName(), tour.getName());
-
+//Сохранение в файл (создание bookings.txt)
     ofstream file(filename, ios::app);
     if (file.is_open()) file << user.getName() << " " << tour.getName() << endl;
 
@@ -201,6 +206,7 @@ void BookingManager::showBookings(const User& user) const {
     }
     if (!found) cout << "У вас нет бронирований." << endl;
 }
+
 
 void BookingManager::viewAllBookings() const {
     cout << endl << "Все заказы:" << endl;

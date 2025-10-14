@@ -1,7 +1,4 @@
 #pragma once
-//chcp 65001
-//g++ main.cpp UserFuncs.cpp TourFuncs.cpp AdminFuncs.cpp -o travel_agency.exe
-//.\travel_agency.exe
 
 // Цвета для консоли 
 #define RESET   "\033[0m"
